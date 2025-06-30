@@ -15,8 +15,8 @@ import Time
 
 type alias Model =
     { currentPhase : TimePhase
-    , temperature : Int
     , currentQuote : String
+    , weather : Maybe Weather
     }
 
 
@@ -39,18 +39,28 @@ type alias PhaseConfig =
     }
 
 
+type alias Weather =
+    { timestamp : String
+    , temperature : String
+    , wind : String
+    , short : String
+    , detailed : String
+    }
+
+
 type alias Snapshot =
     { unix_ms : Int
     , quote : String
     , phase : String
+    , weather : Maybe Weather
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { currentPhase = Dawn
-      , temperature = 22
       , currentQuote = ""
+      , weather = Nothing
       }
     , Cmd.batch
         [ Task.perform GotTime Time.now
@@ -85,7 +95,10 @@ update msg model =
         GotSnapshot result ->
             case result of
                 Ok snapshot ->
-                    ( { model | currentQuote = snapshot.quote }
+                    ( { model
+                        | currentQuote = snapshot.quote
+                        , weather = snapshot.weather
+                      }
                     , Cmd.none
                     )
 
@@ -140,12 +153,23 @@ fetchSnapshot =
         }
 
 
+weatherDecoder : Decode.Decoder Weather
+weatherDecoder =
+    Decode.map5 Weather
+        (Decode.field "timestamp" Decode.string)
+        (Decode.field "temperature" Decode.string)
+        (Decode.field "wind" Decode.string)
+        (Decode.field "short" Decode.string)
+        (Decode.field "detailed" Decode.string)
+
+
 snapshotDecoder : Decode.Decoder Snapshot
 snapshotDecoder =
-    Decode.map3 Snapshot
+    Decode.map4 Snapshot
         (Decode.field "unix_ms" Decode.int)
         (Decode.field "quote" Decode.string)
         (Decode.field "phase" Decode.string)
+        (Decode.maybe (Decode.field "weather" weatherDecoder))
 
 
 
@@ -179,12 +203,12 @@ view model =
                         [ span [ class <| "absolute -top-10 left-1/2 -translate-x-1/2 text-3xl opacity-30" ]
                             [ text config.symbol ]
                         , div [ class <| "transition-all duration-2000 " ++ phaseClasses.temperature ]
-                            [ text (String.fromInt model.temperature ++ "°") ]
+                            [ text (getTemperatureDisplay model.weather) ]
                         ]
 
                     -- Weather conditions
                     , div [ class <| "text-base leading-relaxed opacity-70 " ++ phaseClasses.conditions ]
-                        (List.map (\line -> div [] [ text line ]) config.weatherPoetry)
+                        (getWeatherDisplay model.weather config.weatherPoetry)
                     ]
                 ]
 
@@ -217,6 +241,28 @@ view model =
                 ]
             ]
         ]
+
+
+getTemperatureDisplay : Maybe Weather -> String
+getTemperatureDisplay maybeWeather =
+    case maybeWeather of
+        Just weather ->
+            weather.temperature
+
+        Nothing ->
+            "—°"
+
+
+getWeatherDisplay : Maybe Weather -> List String -> List (Html msg)
+getWeatherDisplay maybeWeather defaultPoetry =
+    case maybeWeather of
+        Just weather ->
+            [ div [] [ text weather.short ]
+            , div [ class "text-sm mt-2" ] [ text weather.wind ]
+            ]
+
+        Nothing ->
+            List.map (\line -> div [] [ text line ]) defaultPoetry
 
 
 getPhaseConfig : TimePhase -> PhaseConfig

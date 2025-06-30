@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.V.M === region._.M)
+	if (region.W.N === region.aa.N)
 	{
-		return 'on line ' + region.V.M;
+		return 'on line ' + region.W.N;
 	}
-	return 'on lines ' + region.V.M + ' through ' + region._.M;
+	return 'on lines ' + region.W.N + ' through ' + region.aa.N;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aO,
+		impl.aS,
+		impl.a6,
 		impl.a1,
-		impl.aZ,
 		function() { return function() {} }
 	);
 });
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		t: func(record.t),
-		W: record.W,
-		T: record.T
+		X: record.X,
+		U: record.U
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.t;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.W;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.X;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.T) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.U) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aO,
+		impl.aS,
+		impl.a6,
 		impl.a1,
-		impl.aZ,
 		function(sendToApp, initialModel) {
-			var view = impl.a3;
+			var view = impl.a8;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aO,
+		impl.aS,
+		impl.a6,
 		impl.a1,
-		impl.aZ,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.U && impl.U(sendToApp)
-			var view = impl.a3;
+			var divertHrefToApp = impl.V && impl.V(sendToApp)
+			var view = impl.a8;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aG);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aJ);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.a$) && (_VirtualDom_doc.title = title = doc.a$);
+				(title !== doc.a4) && (_VirtualDom_doc.title = title = doc.a4);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aQ;
-	var onUrlRequest = impl.aR;
+	var onUrlChange = impl.aU;
+	var onUrlRequest = impl.aV;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		U: function(sendToApp)
+		V: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.an === next.an
-							&& curr.ae === next.ae
-							&& curr.ak.a === next.ak.a
+							&& curr.ao === next.ao
+							&& curr.af === next.af
+							&& curr.al.a === next.al.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aO: function(flags)
+		aS: function(flags)
 		{
-			return A3(impl.aO, flags, _Browser_getUrl(), key);
+			return A3(impl.aS, flags, _Browser_getUrl(), key);
 		},
-		a3: impl.a3,
-		a1: impl.a1,
-		aZ: impl.aZ
+		a8: impl.a8,
+		a6: impl.a6,
+		a1: impl.a1
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aM: 'hidden', aH: 'visibilitychange' }
+		? { aQ: 'hidden', aK: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aM: 'mozHidden', aH: 'mozvisibilitychange' }
+		? { aQ: 'mozHidden', aK: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aM: 'msHidden', aH: 'msvisibilitychange' }
+		? { aQ: 'msHidden', aK: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aM: 'webkitHidden', aH: 'webkitvisibilitychange' }
-		: { aM: 'hidden', aH: 'visibilitychange' };
+		? { aQ: 'webkitHidden', aK: 'webkitvisibilitychange' }
+		: { aQ: 'hidden', aK: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		au: _Browser_getScene(),
-		az: {
-			aB: _Browser_window.pageXOffset,
-			aC: _Browser_window.pageYOffset,
-			aA: _Browser_doc.documentElement.clientWidth,
-			ad: _Browser_doc.documentElement.clientHeight
+		av: _Browser_getScene(),
+		aB: {
+			aE: _Browser_window.pageXOffset,
+			aF: _Browser_window.pageYOffset,
+			aC: _Browser_doc.documentElement.clientWidth,
+			ae: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		aA: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		ad: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aC: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		ae: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			au: {
-				aA: node.scrollWidth,
-				ad: node.scrollHeight
+			av: {
+				aC: node.scrollWidth,
+				ae: node.scrollHeight
 			},
-			az: {
-				aB: node.scrollLeft,
-				aC: node.scrollTop,
-				aA: node.clientWidth,
-				ad: node.clientHeight
+			aB: {
+				aE: node.scrollLeft,
+				aF: node.scrollTop,
+				aC: node.clientWidth,
+				ae: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			au: _Browser_getScene(),
-			az: {
-				aB: x,
-				aC: y,
-				aA: _Browser_doc.documentElement.clientWidth,
-				ad: _Browser_doc.documentElement.clientHeight
+			av: _Browser_getScene(),
+			aB: {
+				aE: x,
+				aF: y,
+				aC: _Browser_doc.documentElement.clientWidth,
+				ae: _Browser_doc.documentElement.clientHeight
 			},
-			aJ: {
-				aB: x + rect.left,
-				aC: y + rect.top,
-				aA: rect.width,
-				ad: rect.height
+			aN: {
+				aE: x + rect.left,
+				aF: y + rect.top,
+				aC: rect.width,
+				ae: rect.height
 			}
 		};
 	});
@@ -4380,25 +4380,25 @@ var _Http_toTask = F3(function(router, toTask, request)
 	return _Scheduler_binding(function(callback)
 	{
 		function done(response) {
-			callback(toTask(request.aK.a(response)));
+			callback(toTask(request.aO.a(response)));
 		}
 
 		var xhr = new XMLHttpRequest();
 		xhr.addEventListener('error', function() { done($elm$http$Http$NetworkError_); });
 		xhr.addEventListener('timeout', function() { done($elm$http$Http$Timeout_); });
-		xhr.addEventListener('load', function() { done(_Http_toResponse(request.aK.b, xhr)); });
-		$elm$core$Maybe$isJust(request.ay) && _Http_track(router, xhr, request.ay.a);
+		xhr.addEventListener('load', function() { done(_Http_toResponse(request.aO.b, xhr)); });
+		$elm$core$Maybe$isJust(request.aA) && _Http_track(router, xhr, request.aA.a);
 
 		try {
-			xhr.open(request.aP, request.a2, true);
+			xhr.open(request.aT, request.a7, true);
 		} catch (e) {
-			return done($elm$http$Http$BadUrl_(request.a2));
+			return done($elm$http$Http$BadUrl_(request.a7));
 		}
 
 		_Http_configureRequest(xhr, request);
 
-		request.aG.a && xhr.setRequestHeader('Content-Type', request.aG.a);
-		xhr.send(request.aG.b);
+		request.aJ.a && xhr.setRequestHeader('Content-Type', request.aJ.a);
+		xhr.send(request.aJ.b);
 
 		return function() { xhr.c = true; xhr.abort(); };
 	});
@@ -4409,13 +4409,13 @@ var _Http_toTask = F3(function(router, toTask, request)
 
 function _Http_configureRequest(xhr, request)
 {
-	for (var headers = request.ac; headers.b; headers = headers.b) // WHILE_CONS
+	for (var headers = request.ad; headers.b; headers = headers.b) // WHILE_CONS
 	{
 		xhr.setRequestHeader(headers.a.a, headers.a.b);
 	}
-	xhr.timeout = request.a_.a || 0;
-	xhr.responseType = request.aK.d;
-	xhr.withCredentials = request.aE;
+	xhr.timeout = request.a2.a || 0;
+	xhr.responseType = request.aO.d;
+	xhr.withCredentials = request.aH;
 }
 
 
@@ -4436,10 +4436,10 @@ function _Http_toResponse(toBody, xhr)
 function _Http_toMetadata(xhr)
 {
 	return {
-		a2: xhr.responseURL,
-		aX: xhr.status,
-		aY: xhr.statusText,
-		ac: _Http_parseHeaders(xhr.getAllResponseHeaders())
+		a7: xhr.responseURL,
+		a$: xhr.status,
+		a0: xhr.statusText,
+		ad: _Http_parseHeaders(xhr.getAllResponseHeaders())
 	};
 }
 
@@ -4534,15 +4534,15 @@ function _Http_track(router, xhr, tracker)
 	xhr.upload.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Sending({
-			aW: event.loaded,
-			av: event.total
+			a_: event.loaded,
+			ax: event.total
 		}))));
 	});
 	xhr.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Receiving({
-			aU: event.loaded,
-			av: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
+			aY: event.loaded,
+			ax: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
 		}))));
 	});
 }
@@ -5095,7 +5095,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {ab: fragment, ae: host, ai: path, ak: port_, an: protocol, ao: query};
+		return {ac: fragment, af: host, aj: path, al: port_, ao: protocol, ap: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5974,7 +5974,7 @@ var $elm$http$Http$resolve = F2(
 			case 3:
 				var metadata = response.a;
 				return $elm$core$Result$Err(
-					$elm$http$Http$BadStatus(metadata.aX));
+					$elm$http$Http$BadStatus(metadata.a$));
 			default:
 				var body = response.b;
 				return A2(
@@ -6002,7 +6002,7 @@ var $elm$http$Http$Request = function (a) {
 };
 var $elm$http$Http$State = F2(
 	function (reqs, subs) {
-		return {ar: reqs, aw: subs};
+		return {as: reqs, ay: subs};
 	});
 var $elm$http$Http$init = $elm$core$Task$succeed(
 	A2($elm$http$Http$State, $elm$core$Dict$empty, _List_Nil));
@@ -6046,7 +6046,7 @@ var $elm$http$Http$updateReqs = F3(
 					return A2(
 						$elm$core$Task$andThen,
 						function (pid) {
-							var _v4 = req.ay;
+							var _v4 = req.aA;
 							if (_v4.$ === 1) {
 								return A3($elm$http$Http$updateReqs, router, otherCmds, reqs);
 							} else {
@@ -6076,7 +6076,7 @@ var $elm$http$Http$onEffects = F4(
 				return $elm$core$Task$succeed(
 					A2($elm$http$Http$State, reqs, subs));
 			},
-			A3($elm$http$Http$updateReqs, router, cmds, state.ar));
+			A3($elm$http$Http$updateReqs, router, cmds, state.as));
 	});
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
@@ -6119,7 +6119,7 @@ var $elm$http$Http$onSelfMsg = F3(
 				A2(
 					$elm$core$List$filterMap,
 					A3($elm$http$Http$maybeSend, router, tracker, progress),
-					state.aw)));
+					state.ay)));
 	});
 var $elm$http$Http$Cancel = function (a) {
 	return {$: 0, a: a};
@@ -6133,14 +6133,14 @@ var $elm$http$Http$cmdMap = F2(
 			var r = cmd.a;
 			return $elm$http$Http$Request(
 				{
-					aE: r.aE,
-					aG: r.aG,
-					aK: A2(_Http_mapExpect, func, r.aK),
-					ac: r.ac,
-					aP: r.aP,
-					a_: r.a_,
-					ay: r.ay,
-					a2: r.a2
+					aH: r.aH,
+					aJ: r.aJ,
+					aO: A2(_Http_mapExpect, func, r.aO),
+					ad: r.ad,
+					aT: r.aT,
+					a2: r.a2,
+					aA: r.aA,
+					a7: r.a7
 				});
 		}
 	});
@@ -6163,30 +6163,54 @@ var $elm$http$Http$subscription = _Platform_leaf('Http');
 var $elm$http$Http$request = function (r) {
 	return $elm$http$Http$command(
 		$elm$http$Http$Request(
-			{aE: false, aG: r.aG, aK: r.aK, ac: r.ac, aP: r.aP, a_: r.a_, ay: r.ay, a2: r.a2}));
+			{aH: false, aJ: r.aJ, aO: r.aO, ad: r.ad, aT: r.aT, a2: r.a2, aA: r.aA, a7: r.a7}));
 };
 var $elm$http$Http$get = function (r) {
 	return $elm$http$Http$request(
-		{aG: $elm$http$Http$emptyBody, aK: r.aK, ac: _List_Nil, aP: 'GET', a_: $elm$core$Maybe$Nothing, ay: $elm$core$Maybe$Nothing, a2: r.a2});
+		{aJ: $elm$http$Http$emptyBody, aO: r.aO, ad: _List_Nil, aT: 'GET', a2: $elm$core$Maybe$Nothing, aA: $elm$core$Maybe$Nothing, a7: r.a7});
 };
-var $author$project$Main$Snapshot = F3(
-	function (unix_ms, quote, phase) {
-		return {aT: phase, ap: quote, a0: unix_ms};
+var $author$project$Main$Snapshot = F4(
+	function (unix_ms, quote, phase, weather) {
+		return {aX: phase, aq: quote, a5: unix_ms, G: weather};
 	});
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $elm$json$Json$Decode$map3 = _Json_map3;
+var $elm$json$Json$Decode$map4 = _Json_map4;
+var $elm$json$Json$Decode$oneOf = _Json_oneOf;
+var $elm$json$Json$Decode$maybe = function (decoder) {
+	return $elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
+				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
+			]));
+};
 var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Main$snapshotDecoder = A4(
-	$elm$json$Json$Decode$map3,
+var $author$project$Main$Weather = F5(
+	function (timestamp, temperature, wind, _short, detailed) {
+		return {aL: detailed, aw: _short, m: temperature, a3: timestamp, aD: wind};
+	});
+var $elm$json$Json$Decode$map5 = _Json_map5;
+var $author$project$Main$weatherDecoder = A6(
+	$elm$json$Json$Decode$map5,
+	$author$project$Main$Weather,
+	A2($elm$json$Json$Decode$field, 'timestamp', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'temperature', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'wind', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'short', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'detailed', $elm$json$Json$Decode$string));
+var $author$project$Main$snapshotDecoder = A5(
+	$elm$json$Json$Decode$map4,
 	$author$project$Main$Snapshot,
 	A2($elm$json$Json$Decode$field, 'unix_ms', $elm$json$Json$Decode$int),
 	A2($elm$json$Json$Decode$field, 'quote', $elm$json$Json$Decode$string),
-	A2($elm$json$Json$Decode$field, 'phase', $elm$json$Json$Decode$string));
+	A2($elm$json$Json$Decode$field, 'phase', $elm$json$Json$Decode$string),
+	$elm$json$Json$Decode$maybe(
+		A2($elm$json$Json$Decode$field, 'weather', $author$project$Main$weatherDecoder)));
 var $author$project$Main$fetchSnapshot = $elm$http$Http$get(
 	{
-		aK: A2($elm$http$Http$expectJson, $author$project$Main$GotSnapshot, $author$project$Main$snapshotDecoder),
-		a2: '/api/snapshot'
+		aO: A2($elm$http$Http$expectJson, $author$project$Main$GotSnapshot, $author$project$Main$snapshotDecoder),
+		a7: '/api/snapshot'
 	});
 var $elm$time$Time$Name = function (a) {
 	return {$: 0, a: a};
@@ -6204,7 +6228,7 @@ var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{G: 0, L: '', l: 22},
+		{H: 0, M: '', G: $elm$core$Maybe$Nothing},
 		$elm$core$Platform$Cmd$batch(
 			_List_fromArray(
 				[
@@ -6221,7 +6245,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {am: processes, ax: taggers};
+		return {an: processes, az: taggers};
 	});
 var $elm$time$Time$init = $elm$core$Task$succeed(
 	A2($elm$time$Time$State, $elm$core$Dict$empty, $elm$core$Dict$empty));
@@ -6357,7 +6381,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.am;
+		var processes = _v0.an;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -6423,7 +6447,7 @@ var $elm$time$Time$onEffects = F3(
 	});
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.ax);
+		var _v0 = A2($elm$core$Dict$get, interval, state.az);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -6497,8 +6521,8 @@ var $elm$time$Time$toAdjustedMinutesHelp = F3(
 			} else {
 				var era = eras.a;
 				var olderEras = eras.b;
-				if (_Utils_cmp(era.V, posixMinutes) < 0) {
-					return posixMinutes + era.ah;
+				if (_Utils_cmp(era.W, posixMinutes) < 0) {
+					return posixMinutes + era.ai;
 				} else {
 					var $temp$defaultOffset = defaultOffset,
 						$temp$posixMinutes = posixMinutes,
@@ -6548,7 +6572,7 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							G: $author$project$Main$timeToPhase(time)
+							H: $author$project$Main$timeToPhase(time)
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 1:
@@ -6557,7 +6581,7 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							G: $author$project$Main$timeToPhase(time)
+							H: $author$project$Main$timeToPhase(time)
 						}),
 					$author$project$Main$fetchSnapshot);
 			default:
@@ -6567,7 +6591,7 @@ var $author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{L: snapshot.ap}),
+							{M: snapshot.aq, G: snapshot.G}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -6587,17 +6611,17 @@ var $elm$html$Html$div = _VirtualDom_node('div');
 var $author$project$Main$getPhaseClasses = function (phase) {
 	switch (phase) {
 		case 0:
-			return {r: 'italic font-serif', s: 'bg-gradient-to-br from-[#1a1a2e] to-[#2d2d44] text-[#ffd93d]', u: 'bg-gradient-radial from-[#ff6b6b] via-transparent to-transparent opacity-20', e: 'text-[11px] tracking-[6px] text-[#ff6b6b] font-serif', w: 'bg-gradient-to-r from-transparent via-[#ff6b6b] to-transparent', l: 'text-[140px] font-thin font-serif', f: 'text-[#ff6b6b]', A: 'text-[26px] leading-[1.8] font-serif'};
+			return {r: 'italic font-serif', s: 'bg-gradient-to-br from-[#1a1a2e] to-[#2d2d44] text-[#ffd93d]', u: 'bg-gradient-radial from-[#ff6b6b] via-transparent to-transparent opacity-20', e: 'text-[11px] tracking-[6px] text-[#ff6b6b] font-serif', w: 'bg-gradient-to-r from-transparent via-[#ff6b6b] to-transparent', m: 'text-[140px] font-thin font-serif', f: 'text-[#ff6b6b]', A: 'text-[26px] leading-[1.8] font-serif'};
 		case 1:
-			return {r: 'font-sans', s: 'bg-gradient-to-br from-[#fff5e1] to-[#ffe0b2] text-[#5d4037]', u: 'bg-gradient-radial from-[#ffb74d] via-transparent to-transparent opacity-40', e: 'text-xs tracking-[3px] text-[#ff8a65] font-sans', w: 'bg-gradient-to-r from-transparent via-[#ff8a65] to-transparent', l: 'text-[120px] font-light font-sans', f: 'text-[#ff8a65]', A: 'text-[28px] leading-[1.6] font-sans'};
+			return {r: 'font-sans', s: 'bg-gradient-to-br from-[#fff5e1] to-[#ffe0b2] text-[#5d4037]', u: 'bg-gradient-radial from-[#ffb74d] via-transparent to-transparent opacity-40', e: 'text-xs tracking-[3px] text-[#ff8a65] font-sans', w: 'bg-gradient-to-r from-transparent via-[#ff8a65] to-transparent', m: 'text-[120px] font-light font-sans', f: 'text-[#ff8a65]', A: 'text-[28px] leading-[1.6] font-sans'};
 		case 2:
-			return {r: 'font-sans', s: 'bg-gradient-to-br from-[#e8f5e9] to-[#c8e6c9] text-[#1b5e20]', u: 'bg-gradient-to-b from-transparent to-[#4caf50] opacity-10', e: 'text-[13px] tracking-[2px] text-[#4caf50] font-sans capitalize', w: 'bg-gradient-to-r from-transparent via-[#4caf50] to-transparent', l: 'text-[160px] font-bold font-sans', f: 'text-[#4caf50]', A: 'text-[32px] leading-[1.5] font-sans'};
+			return {r: 'font-sans', s: 'bg-gradient-to-br from-[#e8f5e9] to-[#c8e6c9] text-[#1b5e20]', u: 'bg-gradient-to-b from-transparent to-[#4caf50] opacity-10', e: 'text-[13px] tracking-[2px] text-[#4caf50] font-sans capitalize', w: 'bg-gradient-to-r from-transparent via-[#4caf50] to-transparent', m: 'text-[160px] font-bold font-sans', f: 'text-[#4caf50]', A: 'text-[32px] leading-[1.5] font-sans'};
 		case 3:
-			return {r: 'italic font-serif', s: 'bg-gradient-to-br from-[#fff3e0] to-[#ffe0b2] text-[#5d4037]', u: 'bg-gradient-radial from-[#ff9800] via-transparent to-transparent opacity-30', e: 'text-xs tracking-[4px] text-[#ff9800] font-serif lowercase', w: 'bg-gradient-to-r from-transparent via-[#ff9800] to-transparent', l: 'text-[130px] font-light font-serif', f: 'text-[#ff9800]', A: 'text-[30px] leading-[1.7] font-serif'};
+			return {r: 'italic font-serif', s: 'bg-gradient-to-br from-[#fff3e0] to-[#ffe0b2] text-[#5d4037]', u: 'bg-gradient-radial from-[#ff9800] via-transparent to-transparent opacity-30', e: 'text-xs tracking-[4px] text-[#ff9800] font-serif lowercase', w: 'bg-gradient-to-r from-transparent via-[#ff9800] to-transparent', m: 'text-[130px] font-light font-serif', f: 'text-[#ff9800]', A: 'text-[30px] leading-[1.7] font-serif'};
 		case 4:
-			return {r: 'font-serif', s: 'bg-gradient-to-br from-[#311b92] to-[#512da8] text-[#f3e5f5]', u: 'bg-gradient-radial from-[#e91e63] via-transparent to-transparent opacity-40', e: 'text-[11px] tracking-[5px] text-[#e91e63] font-serif', w: 'bg-gradient-to-r from-transparent via-[#e91e63] to-transparent', l: 'text-[110px] font-thin font-serif', f: 'text-[#e91e63]', A: 'text-[24px] leading-[1.9] font-serif'};
+			return {r: 'font-serif', s: 'bg-gradient-to-br from-[#311b92] to-[#512da8] text-[#f3e5f5]', u: 'bg-gradient-radial from-[#e91e63] via-transparent to-transparent opacity-40', e: 'text-[11px] tracking-[5px] text-[#e91e63] font-serif', w: 'bg-gradient-to-r from-transparent via-[#e91e63] to-transparent', m: 'text-[110px] font-thin font-serif', f: 'text-[#e91e63]', A: 'text-[24px] leading-[1.9] font-serif'};
 		default:
-			return {r: 'font-mono', s: 'bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-[#b8860b]', u: '', e: 'text-[10px] tracking-[6px] text-[#00ffff] font-mono', w: 'bg-gradient-to-r from-transparent via-[#00ffff] to-transparent', l: 'text-[120px] font-normal font-mono', f: 'text-[#00ffff]', A: 'text-[22px] leading-[2] font-mono'};
+			return {r: 'font-mono', s: 'bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-[#b8860b]', u: '', e: 'text-[10px] tracking-[6px] text-[#00ffff] font-mono', w: 'bg-gradient-to-r from-transparent via-[#00ffff] to-transparent', m: 'text-[120px] font-normal font-mono', f: 'text-[#00ffff]', A: 'text-[22px] leading-[2] font-mono'};
 	}
 };
 var $author$project$Main$getPhaseConfig = function (phase) {
@@ -6664,12 +6688,59 @@ var $author$project$Main$getPhaseConfig = function (phase) {
 			};
 	}
 };
-var $elm$html$Html$span = _VirtualDom_node('span');
+var $author$project$Main$getTemperatureDisplay = function (maybeWeather) {
+	if (!maybeWeather.$) {
+		var weather = maybeWeather.a;
+		return weather.m;
+	} else {
+		return '—°';
+	}
+};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$getWeatherDisplay = F2(
+	function (maybeWeather, defaultPoetry) {
+		if (!maybeWeather.$) {
+			var weather = maybeWeather.a;
+			return _List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(weather.aw)
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('text-sm mt-2')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(weather.aD)
+						]))
+				]);
+		} else {
+			return A2(
+				$elm$core$List$map,
+				function (line) {
+					return A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(line)
+							]));
+				},
+				defaultPoetry);
+		}
+	});
+var $elm$html$Html$span = _VirtualDom_node('span');
 var $author$project$Main$view = function (model) {
-	var phaseClasses = $author$project$Main$getPhaseClasses(model.G);
-	var config = $author$project$Main$getPhaseConfig(model.G);
+	var phaseClasses = $author$project$Main$getPhaseClasses(model.H);
+	var config = $author$project$Main$getPhaseConfig(model.H);
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6738,12 +6809,12 @@ var $author$project$Main$view = function (model) {
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$elm$html$Html$Attributes$class('transition-all duration-2000 ' + phaseClasses.l)
+														$elm$html$Html$Attributes$class('transition-all duration-2000 ' + phaseClasses.m)
 													]),
 												_List_fromArray(
 													[
 														$elm$html$Html$text(
-														$elm$core$String$fromInt(model.l) + '°')
+														$author$project$Main$getTemperatureDisplay(model.G))
 													]))
 											])),
 										A2(
@@ -6752,18 +6823,7 @@ var $author$project$Main$view = function (model) {
 											[
 												$elm$html$Html$Attributes$class('text-base leading-relaxed opacity-70 ' + phaseClasses.r)
 											]),
-										A2(
-											$elm$core$List$map,
-											function (line) {
-												return A2(
-													$elm$html$Html$div,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$elm$html$Html$text(line)
-														]));
-											},
-											config.z))
+										A2($author$project$Main$getWeatherDisplay, model.G, config.z))
 									]))
 							])),
 						A2(
@@ -6817,7 +6877,7 @@ var $author$project$Main$view = function (model) {
 										_List_fromArray(
 											[
 												$elm$html$Html$text(
-												$elm$core$String$isEmpty(model.L) ? '' : model.L)
+												$elm$core$String$isEmpty(model.M) ? '' : model.M)
 											])),
 										A2(
 										$elm$html$Html$div,
@@ -6835,6 +6895,6 @@ var $author$project$Main$view = function (model) {
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{aO: $author$project$Main$init, aZ: $author$project$Main$subscriptions, a1: $author$project$Main$update, a3: $author$project$Main$view});
+	{aS: $author$project$Main$init, a1: $author$project$Main$subscriptions, a6: $author$project$Main$update, a8: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));

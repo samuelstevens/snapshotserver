@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from services.weather import get_weather
+
 app = FastAPI()
 
 
@@ -103,17 +105,42 @@ def get_random_quote(phase):
     return selected
 
 
+class Weather(BaseModel):
+    timestamp: str
+    temperature: str
+    wind: str
+    short: str
+    detailed: str
+
+
 class Snapshot(BaseModel):
     unix_ms: int
     quote: str
     phase: str
+    weather: Weather | None = None
+
+
+# Ohio State University coordinates
+OSU_COORDS = (40.0076, -83.0300)
 
 
 @app.get("/api/snapshot")
 async def snapshot() -> Snapshot:
     phase = get_time_phase()
     quote = get_random_quote(phase)
-    return Snapshot(unix_ms=int(time.time() * 1000), quote=quote, phase=phase)
+
+    # Try to get weather data, but don't fail if it's unavailable
+    weather_data = None
+    try:
+        weather_dict = get_weather(OSU_COORDS)
+        weather_data = Weather(**weather_dict)
+    except Exception:
+        # If weather fetch fails, continue without it
+        pass
+
+    return Snapshot(
+        unix_ms=int(time.time() * 1000), quote=quote, phase=phase, weather=weather_data
+    )
 
 
 @app.get("/ping")

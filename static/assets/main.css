@@ -219,6 +219,9 @@
   .my-10 {
     margin-block: calc(var(--spacing) * 10);
   }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
