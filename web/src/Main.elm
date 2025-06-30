@@ -363,67 +363,67 @@ getPhaseClasses : TimePhase -> PhaseClasses
 getPhaseClasses phase =
     case phase of
         Dawn ->
-            { container = "bg-gradient-to-br from-[#1a1a2e] to-[#2d2d44] text-[#ffd93d]"
+            { container = "bg-linear-to-br from-[#1a1a2e] to-[#2d2d44] text-[#ffd93d]"
             , overlay = "bg-gradient-radial from-[#ff6b6b] via-transparent to-transparent opacity-20"
             , phaseLabel = "text-[11px] tracking-[6px] text-[#ff6b6b] font-serif"
             , temperature = "text-[140px] font-thin font-serif"
             , conditions = "italic font-serif"
-            , separator = "bg-gradient-to-r from-transparent via-[#ff6b6b] to-transparent"
+            , separator = "bg-linear-to-r from-transparent via-[#ff6b6b] to-transparent"
             , wisdomSource = "text-[#ff6b6b]"
             , wisdomText = "text-[26px] leading-[1.8] font-serif"
             }
 
         Morning ->
-            { container = "bg-gradient-to-br from-[#fff5e1] to-[#ffe0b2] text-[#5d4037]"
+            { container = "bg-linear-to-br from-[#fff5e1] to-[#ffe0b2] text-[#5d4037]"
             , overlay = "bg-gradient-radial from-[#ffb74d] via-transparent to-transparent opacity-40"
             , phaseLabel = "text-xs tracking-[3px] text-[#ff8a65] font-sans"
             , temperature = "text-[120px] font-light font-sans"
             , conditions = "font-sans"
-            , separator = "bg-gradient-to-r from-transparent via-[#ff8a65] to-transparent"
+            , separator = "bg-linear-to-r from-transparent via-[#ff8a65] to-transparent"
             , wisdomSource = "text-[#ff8a65]"
             , wisdomText = "text-[28px] leading-[1.6] font-sans"
             }
 
         Midday ->
-            { container = "bg-gradient-to-br from-[#e8f5e9] to-[#c8e6c9] text-[#1b5e20]"
-            , overlay = "bg-gradient-to-b from-transparent to-[#4caf50] opacity-10"
+            { container = "bg-linear-to-br from-[#e8f5e9] to-[#c8e6c9] text-[#1b5e20]"
+            , overlay = "bg-linear-to-b from-transparent to-[#4caf50] opacity-10"
             , phaseLabel = "text-[13px] tracking-[2px] text-[#4caf50] font-sans capitalize"
             , temperature = "text-[160px] font-bold font-sans"
             , conditions = "font-sans"
-            , separator = "bg-gradient-to-r from-transparent via-[#4caf50] to-transparent"
+            , separator = "bg-linear-to-r from-transparent via-[#4caf50] to-transparent"
             , wisdomSource = "text-[#4caf50]"
             , wisdomText = "text-[32px] leading-[1.5] font-sans"
             }
 
         Afternoon ->
-            { container = "bg-gradient-to-br from-[#fff3e0] to-[#ffe0b2] text-[#5d4037]"
+            { container = "bg-linear-to-br from-[#fff3e0] to-[#ffe0b2] text-[#5d4037]"
             , overlay = "bg-gradient-radial from-[#ff9800] via-transparent to-transparent opacity-30"
             , phaseLabel = "text-xs tracking-[4px] text-[#ff9800] font-serif lowercase"
             , temperature = "text-[130px] font-light font-serif"
             , conditions = "italic font-serif"
-            , separator = "bg-gradient-to-r from-transparent via-[#ff9800] to-transparent"
+            , separator = "bg-linear-to-r from-transparent via-[#ff9800] to-transparent"
             , wisdomSource = "text-[#ff9800]"
             , wisdomText = "text-[30px] leading-[1.7] font-serif"
             }
 
         Evening ->
-            { container = "bg-gradient-to-br from-[#311b92] to-[#512da8] text-[#f3e5f5]"
-            , overlay = "bg-gradient-radial from-[#e91e63] via-transparent to-transparent opacity-40"
+            { container = "bg-linear-to-br from-[#311b92] to-[#512da8] text-[#f3e5f5]"
+            , overlay = "bg-radial from-[#e91e63] via-transparent to-transparent opacity-40"
             , phaseLabel = "text-[11px] tracking-[5px] text-[#e91e63] font-serif"
             , temperature = "text-[110px] font-thin font-serif"
             , conditions = "font-serif"
-            , separator = "bg-gradient-to-r from-transparent via-[#e91e63] to-transparent"
+            , separator = "bg-linear-to-r from-transparent via-[#e91e63] to-transparent"
             , wisdomSource = "text-[#e91e63]"
             , wisdomText = "text-[24px] leading-[1.9] font-serif"
             }
 
         Night ->
-            { container = "bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-[#b8860b]"
+            { container = "bg-linear-to-br from-[#0a0a0a] to-[#1a1a1a] text-[#b8860b]"
             , overlay = ""
             , phaseLabel = "text-[10px] tracking-[6px] text-[#00ffff] font-mono"
             , temperature = "text-[120px] font-normal font-mono"
             , conditions = "font-mono"
-            , separator = "bg-gradient-to-r from-transparent via-[#00ffff] to-transparent"
+            , separator = "bg-linear-to-r from-transparent via-[#00ffff] to-transparent"
             , wisdomSource = "text-[#00ffff]"
             , wisdomText = "text-[22px] leading-[2] font-mono"
             }
